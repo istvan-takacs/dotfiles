@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Sketchybar — compiled binary (run `make` inside sketchybar/helper/ after install)
+sketchybar/helper/helper
+
+# Runtime state, not config
+sketchybar/.zen_state
+
+# Logs written at runtime
+*.log
+
+# Editor / OS artefacts
+.idea/
+*.swp
+*~

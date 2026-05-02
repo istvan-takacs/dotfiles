@@ -1,0 +1,81 @@
+# Load scripting addition
+sudo yabai --load-sa
+
+# ─── Layout ──────────────────────────────────────────────────────────────────
+yabai -m config layout bsp
+yabai -m config window_placement second_child
+
+# ─── Space labels (3-monitor setup) ──────────────────────────────────────────
+yabai -m space 1 --label one
+yabai -m space 2 --label two
+yabai -m space 3 --label three
+yabai -m space 4 --label four
+yabai -m space 5 --label five
+yabai -m space 6 --label six
+yabai -m space 7 --label seven
+yabai -m space 8 --label eight
+yabai -m space 9 --label nine
+
+# ─── Padding & gaps ──────────────────────────────────────────────────────────
+yabai -m config top_padding    10
+yabai -m config bottom_padding 10
+yabai -m config left_padding   10
+yabai -m config right_padding  10
+yabai -m config window_gap     10
+
+# ─── Opacity ─────────────────────────────────────────────────────────────────
+yabai -m config window_opacity          on
+yabai -m config window_opacity_duration 0.0
+yabai -m config active_window_opacity   1.0
+yabai -m config normal_window_opacity   0.95
+
+# ─── Window borders ──────────────────────────────────────────────────────────
+# Catppuccin Macchiato colours; yabai.sh plugin overrides border_color live
+yabai -m config window_border              on
+yabai -m config window_border_width        2
+yabai -m config active_window_border_color 0xff8aadf4   # Catppuccin blue
+yabai -m config normal_window_border_color 0x40494d64   # BG2 at 25 % alpha
+
+# ─── Mouse ───────────────────────────────────────────────────────────────────
+yabai -m config mouse_modifier    alt
+yabai -m config mouse_action1     move
+yabai -m config mouse_action2     resize
+yabai -m config mouse_drop_action swap   # FIX: was `yabai -m mouse_drop_action` (missing `config`)
+
+# Focus whichever window the cursor is over without needing a click.
+# autofocus (not autoraise) — keeps window z-order stable.
+yabai -m config focus_follows_mouse autofocus
+
+# ─── App rules ───────────────────────────────────────────────────────────────
+yabai -m rule --add label=calculator  app="^Calculator$"       manage=off
+yabai -m rule --add label=karabiner   app="^Karabiner-Elements$" manage=off
+yabai -m rule --add label=finder      app="^Finder$"           manage=off
+# System Settings: float it centered so it doesn't disrupt the tiling layout
+yabai -m rule --add label=settings    app="^System Settings$"  manage=off \
+                                       grid=4:4:1:1:2:2 sticky=off
+
+# ─── Signals — focus recovery ────────────────────────────────────────────────
+# Single consolidated window_destroyed handler (removed the duplicate simpler one)
+yabai -m signal --add event=window_destroyed action='
+    yabai -m query --windows --window &>/dev/null \
+    || yabai -m window --focus mouse &>/dev/null \
+    || yabai -m window --focus "$(yabai -m query --windows --space | jq -r ".[0].id // empty")" &>/dev/null'
+
+yabai -m signal --add event=application_terminated action='
+    yabai -m query --windows --window &>/dev/null \
+    || yabai -m window --focus mouse &>/dev/null'
+
+yabai -m signal --add event=window_minimized active=yes action='
+    yabai -m query --windows --window &>/dev/null \
+    || yabai -m window --focus mouse &>/dev/null \
+    || yabai -m window --focus "$(yabai -m query --windows --space | jq -r ".[0].id // empty")" &>/dev/null'
+
+# ─── SketchyBar integration ───────────────────────────────────────────────────
+yabai -m signal --add event=space_changed \
+  action="sketchybar --trigger space_change"
+
+yabai -m signal --add event=window_focused \
+  action="sketchybar --trigger window_focus"
+
+yabai -m signal --add event=display_changed \
+  action="sketchybar --trigger space_change"

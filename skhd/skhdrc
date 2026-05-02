@@ -1,0 +1,126 @@
+# ─── Key legend ───────────────────────────────────────────────────────────────
+# Hyper = ctrl + alt + cmd  (single Karabiner key, no shift)
+# Modifier layers:
+#   shift + ctrl                → window focus / layout / zoom / swap
+#   ctrl + alt + cmd            → warp / ratio / resize / stack / space ops
+#   ctrl + alt + cmd + shift    → shrink resize / housekeeping / workspace rename
+
+# ─── Close focused window ─────────────────────────────────────────────────────
+ctrl + shift - 0x33 : yabai -m window --close
+
+# ─── Window focus (arrow keys) ────────────────────────────────────────────────
+shift + ctrl - down  : yabai -m window --focus south
+shift + ctrl - up    : yabai -m window --focus north
+shift + ctrl - right : yabai -m window --focus east
+shift + ctrl - left  : yabai -m window --focus west
+
+# ─── Layout manipulation ──────────────────────────────────────────────────────
+shift + ctrl - r : yabai -m space --rotate 270
+shift + ctrl - y : yabai -m space --mirror y-axis
+shift + ctrl - x : yabai -m space --mirror x-axis
+shift + ctrl - f : yabai -m window --toggle float --grid 4:4:1:1:2:2
+shift + ctrl - b : yabai -m space --balance
+
+# Toggle current space layout between bsp and stack
+shift + ctrl - t : yabai -m space --layout "$(yabai -m query --spaces --space | jq -r 'if .type == "bsp" then "stack" else "bsp" end')"
+
+# ─── Zoom ─────────────────────────────────────────────────────────────────────
+# Fullscreen zoom: window fills whole screen, rest of layout preserved beneath
+shift + ctrl - space : yabai -m window --toggle zoom-fullscreen
+
+# Parent zoom: window fills its BSP container (shares with sibling), rest untouched
+# e.g. in A|[B/C], zooming B fills the right half without disturbing A
+shift + ctrl - z : yabai -m window --toggle zoom-parent
+
+# ─── Swap windows (vim keys) ──────────────────────────────────────────────────
+shift + ctrl - j : yabai -m window --swap south
+shift + ctrl - k : yabai -m window --swap north
+shift + ctrl - h : yabai -m window --swap west
+shift + ctrl - l : yabai -m window --swap east
+
+# ─── Warp (move window and re-split) ─────────────────────────────────────────
+# (commented — ctrl+alt+cmd j/k/h/l used for stacking instead)
+# ctrl + alt + cmd - j : yabai -m window --warp south
+# ctrl + alt + cmd - k : yabai -m window --warp north
+# ctrl + alt + cmd - h : yabai -m window --warp west
+# ctrl + alt + cmd - l : yabai -m window --warp east
+
+# ─── Resize (expand outward) ──────────────────────────────────────────────────
+# NOTE: ctrl+alt+cmd - up/down are taken by ratio adjust below.
+# Left and right edges are bound here; use ratio (below) for vertical proportioning.
+# ctrl + alt + cmd - left  : yabai -m window --resize left:-30:0
+# ctrl + alt + cmd - right : yabai -m window --resize right:30:0
+# ctrl + alt + cmd - up    : yabai -m window --resize top:0:-30    # conflicts with ratio
+# ctrl + alt + cmd - down  : yabai -m window --resize bottom:0:30  # conflicts with ratio
+
+# ─── Resize (shrink inward) ───────────────────────────────────────────────────
+# ctrl + alt + cmd + shift - left  : yabai -m window --resize left:30:0
+# ctrl + alt + cmd + shift - right : yabai -m window --resize right:-30:0
+# ctrl + alt + cmd + shift - up    : yabai -m window --resize top:0:30    
+# ctrl + alt + cmd + shift - down  : yabai -m window --resize bottom:0:-30 
+
+# ─── Ratio adjust ─────────────────────────────────────────────────────────────
+ctrl + alt + cmd - up   : yabai -m window --ratio rel:-0.05
+ctrl + alt + cmd - down : yabai -m window --ratio rel:0.05
+
+# ─── Stack management ─────────────────────────────────────────────────────────
+# Navigate within a stack (falls back to directional focus if not in a stack)
+# 0x2F = period, 0x2B = comma
+ctrl + alt + cmd - right : yabai -m window --focus stack.next || yabai -m window --focus south
+ctrl + alt + cmd - left : yabai -m window --focus stack.prev || yabai -m window --focus north
+
+# Push focused window into a stack with its directional neighbour (BSP mini-stacks)
+# Use this to co-locate two related windows (e.g. two terminals) in one BSP tile
+ctrl + alt + cmd - j : yabai -m window --stack south
+ctrl + alt + cmd - k : yabai -m window --stack north
+ctrl + alt + cmd - h : yabai -m window --stack west
+ctrl + alt + cmd - l : yabai -m window --stack east
+
+# ─── Space focus (ctrl + 1-9) ─────────────────────────────────────────────────
+ctrl - 1 : ~/.config/yabai/scripts/switch_space.sh 1 false
+ctrl - 2 : ~/.config/yabai/scripts/switch_space.sh 2 false
+ctrl - 3 : ~/.config/yabai/scripts/switch_space.sh 3 false
+ctrl - 4 : ~/.config/yabai/scripts/switch_space.sh 4 false
+ctrl - 5 : ~/.config/yabai/scripts/switch_space.sh 5 false
+ctrl - 6 : ~/.config/yabai/scripts/switch_space.sh 6 false
+ctrl - 7 : ~/.config/yabai/scripts/switch_space.sh 7 false
+ctrl - 8 : ~/.config/yabai/scripts/switch_space.sh 8 false
+ctrl - 9 : ~/.config/yabai/scripts/switch_space.sh 9 false
+
+# ─── Move window to space and follow (ctrl + alt + cmd + 1-9) ────────────────
+ctrl + alt + cmd - 1 : ~/.config/yabai/scripts/switch_space.sh 1 true
+ctrl + alt + cmd - 2 : ~/.config/yabai/scripts/switch_space.sh 2 true
+ctrl + alt + cmd - 3 : ~/.config/yabai/scripts/switch_space.sh 3 true
+ctrl + alt + cmd - 4 : ~/.config/yabai/scripts/switch_space.sh 4 true
+ctrl + alt + cmd - 5 : ~/.config/yabai/scripts/switch_space.sh 5 true
+ctrl + alt + cmd - 6 : ~/.config/yabai/scripts/switch_space.sh 6 true
+ctrl + alt + cmd - 7 : ~/.config/yabai/scripts/switch_space.sh 7 true
+ctrl + alt + cmd - 8 : ~/.config/yabai/scripts/switch_space.sh 8 true
+ctrl + alt + cmd - 9 : ~/.config/yabai/scripts/switch_space.sh 9 true
+
+# ─── Space and window housekeeping ───────────────────────────────────────────
+ctrl + alt + cmd - p : yabai -m window --space prev; yabai -m space --focus prev
+ctrl + alt + cmd - n : yabai -m window --space next; yabai -m space --focus next
+
+# Destroy all empty spaces (except space 1)
+ctrl + alt + cmd - 0x2C : ~/.config/yabai/scripts/destroy_empty_spaces.sh
+
+# Re-tile all windows on current space (force BSP re-insertion)
+ctrl + alt + cmd + shift - 0 : sh -c '\
+  for wid in $(yabai -m query --windows --space | jq -re ".[].id"); do \
+    yabai -m window $wid --toggle float; \
+  done; \
+  for wid in $(yabai -m query --windows --space | jq -re ".[].id"); do \
+    yabai -m window $wid --toggle float; \
+  done'
+
+# ─── Workspace rename ─────────────────────────────────────────────────────────
+ctrl + alt + cmd + shift - 1 : ~/.config/sketchybar/scripts/quick_rename_space.sh 1
+ctrl + alt + cmd + shift - 2 : ~/.config/sketchybar/scripts/quick_rename_space.sh 2
+ctrl + alt + cmd + shift - 3 : ~/.config/sketchybar/scripts/quick_rename_space.sh 3
+ctrl + alt + cmd + shift - 4 : ~/.config/sketchybar/scripts/quick_rename_space.sh 4
+ctrl + alt + cmd + shift - 5 : ~/.config/sketchybar/scripts/quick_rename_space.sh 5
+ctrl + alt + cmd + shift - 6 : ~/.config/sketchybar/scripts/quick_rename_space.sh 6
+ctrl + alt + cmd + shift - 7 : ~/.config/sketchybar/scripts/quick_rename_space.sh 7
+ctrl + alt + cmd + shift - 8 : ~/.config/sketchybar/scripts/quick_rename_space.sh 8
+ctrl + alt + cmd + shift - 9 : ~/.config/sketchybar/scripts/quick_rename_space.sh 9
