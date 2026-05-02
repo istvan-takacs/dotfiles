@@ -1,10 +1,8 @@
 #!/bin/bash
 
-sketchybar --add event brew_update
-
 brew=(
   icon=􀐛
-  icon.color=$WHITE
+  icon.color=0xffcad3f5
   label="…"
   padding_right=10
   script="$PLUGIN_DIR/brew.sh"
@@ -21,9 +19,9 @@ brew_bracket=(
 
 sketchybar --add item brew right \
            --set brew "${brew[@]}" \
-           --subscribe brew brew_update \
+           --subscribe brew mouse.entered mouse.exited mouse.exited.global \
            --add bracket brew_status brew \
            --set brew_status "${brew_bracket[@]}"
 
-# Trigger first check immediately (launchd fires it hourly after that)
+# Run updater immediately in background — launchd fires it hourly after that
 bash "$CONFIG_DIR/update_brew.sh" &
