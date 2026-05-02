@@ -76,7 +76,7 @@ ctrl + alt + cmd - k : yabai -m window --stack north
 ctrl + alt + cmd - h : yabai -m window --stack west
 ctrl + alt + cmd - l : yabai -m window --stack east
 
-# ─── Space focus (ctrl + 1-9) ─────────────────────────────────────────────────
+#) ─── Space focus (ctrl + 1-9) ─────────────────────────────────────────────────
 ctrl - 1 : ~/.config/yabai/scripts/switch_space.sh 1 false
 ctrl - 2 : ~/.config/yabai/scripts/switch_space.sh 2 false
 ctrl - 3 : ~/.config/yabai/scripts/switch_space.sh 3 false
