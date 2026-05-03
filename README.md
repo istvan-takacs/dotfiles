@@ -65,7 +65,7 @@ sketchybar --reload
 | Spaces | One item per space. Click = focus, right-click = destroy, shift+click = rename |
 | Yabai | Window state indicator: grid (tiled), float, fullscreen zoom, parent zoom, stack |
 | Calendar | Date + time. Click toggles **zen mode** (hides non-essential items) |
-| Brew | Outdated package count. Click = popup list of packages with → target version |
+| Brew | Outdated package count. Hover = popup list of packages with → target version |
 | Keyboard | Current input layout (3-char abbreviated) |
 | Wifi / Battery / Volume | Hardware status cluster with animated volume slider |
 | CPU / Disk / Memory | System stats cluster. CPU uses a low-overhead Mach helper (no shell polling) |
@@ -109,7 +109,7 @@ Outdated package count refreshes every hour via a launchd agent (`launchagents/s
 | `shift+ctrl - space` | Fullscreen zoom — window fills screen, layout preserved underneath |
 | `shift+ctrl - z` | Parent zoom — window fills its BSP container (e.g. fills right half without touching left) |
 
-### Swap & warp
+### Swap
 
 | Key | Action |
 |---|---|
@@ -119,16 +119,14 @@ Outdated package count refreshes every hour via a launchd agent (`launchagents/s
 
 | Key | Action |
 |---|---|
-| `hyper - 0x2F` (`.`) | Focus next window in stack |
-| `hyper - 0x2B` (`,`) | Focus prev window in stack |
+| `hyper ←→` | Navigate stack — wraps around at both ends |
 | `hyper - j/k/h/l` | Push window into stack with southern / northern / western / eastern neighbour |
+| `hyper+shift - j/k/h/l` | Break window out of stack into BSP in that direction (rest of stack intact) |
 
-### Resize & ratio
+### Ratio
 
 | Key | Action |
 |---|---|
-| `hyper ←→` | Expand left / right edge outward |
-| `hyper+shift ←→` | Shrink left / right edge inward |
 | `hyper ↑↓` | Increase / decrease split ratio |
 
 ### Spaces
@@ -181,7 +179,7 @@ dotfiles/
 │   ├── sketchybarrc                # Entry point
 │   ├── colors.sh                   # Catppuccin Macchiato palette
 │   ├── icons.sh                    # SF Symbols + Nerd Font codepoints
-│   ├── update_brew.sh              # Triggers brew_update event (called by launchd)
+│   ├── update_brew.sh              # Runs brew outdated, sets label + popup directly (called by launchd)
 │   ├── helper/                     # C helper for low-overhead CPU polling via Mach
 │   │   ├── helper.c
 │   │   ├── cpu.h

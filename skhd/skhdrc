@@ -68,12 +68,17 @@ ctrl + alt + cmd - down : yabai -m window --ratio rel:0.05
 ctrl + alt + cmd - right : yabai -m window --focus stack.next || yabai -m window --focus stack.first
 ctrl + alt + cmd - left  : yabai -m window --focus stack.prev || yabai -m window --focus stack.last
 
-# Push focused window into a stack with its directional neighbour (BSP mini-stacks)
-# Use this to co-locate two related windows (e.g. two terminals) in one BSP tile
+# Push focused window into a stack with its directional neighbour
 ctrl + alt + cmd - j : yabai -m window --stack south
 ctrl + alt + cmd - k : yabai -m window --stack north
 ctrl + alt + cmd - h : yabai -m window --stack west
 ctrl + alt + cmd - l : yabai -m window --stack east
+
+# Break focused window out of a stack into BSP in that direction (leaves rest of stack intact)
+ctrl + alt + cmd + shift - j : yabai -m window --warp south
+ctrl + alt + cmd + shift - k : yabai -m window --warp north
+ctrl + alt + cmd + shift - h : yabai -m window --warp west
+ctrl + alt + cmd + shift - l : yabai -m window --warp east
 
 # ─── Space focus (ctrl + 1-9) ─────────────────────────────────────────────────
 ctrl - 1 : ~/.config/yabai/scripts/switch_space.sh 1 false
